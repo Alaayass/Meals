@@ -18,6 +18,9 @@ import MealDetails from './screens/MealDetails';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Icon } from '@rneui/themed'
 import Fav from './screens/Fav';
+import { Provider } from 'react-redux';
+import store from './store/redux/store';
+//import FavoriteContextProvider from './store/context/favouriate-context';
 
  const Stack = createNativeStackNavigator();
  const Drawer = createDrawerNavigator();
@@ -51,6 +54,9 @@ import Fav from './screens/Fav';
 function App() {
 
   return (
+
+   // <FavoriteContextProvider>
+   <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName='MealsCategories' >
         <Stack.Screen  name='Drawer' component={DrawerNav} options={{headerShown: false}} />
@@ -58,6 +64,9 @@ function App() {
         <Stack.Screen name='MealDetails' component={MealDetails} options={{title: 'Meal Details'}}   />
     </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
+  //  </FavoriteContextProvider>
+    
    
   );
 };

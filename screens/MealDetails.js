@@ -1,20 +1,33 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, Button } from 'react-native'
 import { MEALS } from '../data/categories-data';
 import MealDetailsCom from '../components/MealDetailsCom';
 import IconButton from '../components/IconButton';
+import { FavoriteContext } from '../store/context/favouriate-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFav, removeFav } from '../store/redux/favorites'
 function MealDetails({ route, navigation }) {
+   //const favMealsCtx = useContext(FavoriteContext);
+     const favMeals = useSelector((state) => state.favoriteMeals.ids);
+     const dispatch = useDispatch();
     const mealid = route.params.mealId;
+    const mealISFav = favMeals.includes(mealid);
+
     const selectedMeal = MEALS.find((meal) =>meal.id === mealid  );
-    
     function buttonPressHandler() {
-      console.log('Pressed');
+      if(mealISFav) {
+        dispatch(removeFav({id: mealid}))
+      }
+      else{
+         dispatch(addFav({id: mealid}))
+      }
+     
     }
     useLayoutEffect(()=>{navigation.setOptions({
       headerRight: () => {
-         return <IconButton name='heart' type='font-awesome' size={20} color='red' onPress={buttonPressHandler}/>
+         return <IconButton name={mealISFav ? 'heart' : 'heart-outline'} type='ionicon' size={20} color='red' onPress={buttonPressHandler}/>
       }
-    })}, [navigation] )
+    })}, [navigation, buttonPressHandler] )
   
   
     return(
