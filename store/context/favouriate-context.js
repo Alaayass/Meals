@@ -20,6 +20,7 @@ function FavoriteContextProvider( {children}) {
         addFavorite: addFavorite,
         removeFavorite: removeFavorite
 
+        
     }
 
     return <FavoriteContext.Provider value={value}>
